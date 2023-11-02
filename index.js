@@ -9,6 +9,7 @@ const cors = require("cors");
 const app = express();
 app.use(express.json());
 app.use(cors());
+const port=8080; 
 
 app.post("/register", async (req, resp) => {
   let user = new User(req.body);
@@ -106,4 +107,4 @@ function verifyToken(req,resp,next){
   
 }
 
-app.listen(8080); 
+app.listen(process.env.PORT || port); 
