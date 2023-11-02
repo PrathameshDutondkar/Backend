@@ -10,18 +10,18 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// app.post("/register", async (req, resp) => {
-//   let user = new User(req.body);
-//   let result = await user.save();
-//   result = result.toObject();
-//   delete result.password;
-//   Jwt.sign({ result }, jwtkey, { expiresIn: "2h" }, (err, token) => {
-//     if (err) {
-//       resp.send({ result: "Something went wrong,PLease try after sometimes" });
-//     }
-//     resp.send({ result, auth: token });
-//   });
-// });
+app.post("/register", async (req, resp) => {
+  let user = new User(req.body);
+  let result = await user.save();
+  result = result.toObject();
+  delete result.password;
+  Jwt.sign({ result }, jwtkey, (err, token) => {
+    if (err) {
+      resp.send({ result: "Something went wrong,PLease try after sometimes" });
+    }
+    resp.send({ result, auth: token });
+  });
+});
 app.post("/login", async (req, resp) => {
   if (req.body.password && req.body.email) {
     let user = await User.findOne(req.body).select("-password");
@@ -106,4 +106,4 @@ function verifyToken(req,resp,next){
   
 }
 
-app.listen(8080); //Add the port in backend
+app.listen(8080); 
